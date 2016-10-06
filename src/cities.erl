@@ -15,28 +15,20 @@
 new() ->
   [].
 
-%%declare(Cities, City, LinkedTo) ->
-%%  add(Cities, City, LinkedTo).
-%%
-%%add()
-
 declare(Cities, _City, []) ->
   Cities;
 declare(Cities, City, [Head | Tail]) ->
-  [{City, Head} | declare(Cities, City, Tail)].
+  CitiesWithAdd = [{City, Head} | Cities],
+  declare(CitiesWithAdd, City, Tail).
 
-%%declare(Cities, City, MyList, Acc) ->
-
-
-%%declare(Cities, City, LinkedTo) ->
-%%  [{City, LinkedTo} | Cities].
-
-linked_to([], _City) -> [];
-linked_to([{City, LinkedTo} | Tail], City) ->
-  [LinkedTo | linked_to(Tail, City)];
-linked_to([{LinkedTo, City} | Tail], City) ->
-  [LinkedTo | linked_to(Tail, City)];
-linked_to([{_Other1, _Other2} | Tail], City) ->
-  linked_to(Tail, City).
+linked_to(Cities, City) ->
+  linked_to(Cities, City, []).
+linked_to([], _, Acc) -> Acc;
+linked_to([{City, Link} | Tail], City, Acc) ->
+  linked_to(Tail, City, [Link | Acc]);
+linked_to([{Link, City} | Tail], City, Acc) ->
+  linked_to(Tail, City, [Link | Acc]);
+linked_to([{_Other1, _Other2} | Tail], City, Acc) ->
+  linked_to(Tail, City, Acc).
 
 %%linked_to()
